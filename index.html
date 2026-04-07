@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa del Mercado de Capitales — Guía Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#ffffff;color:#1a1a1a;line-height:1.6;font-size:15px}
+:root{
+  --gold:#B8894A;--gold-mid:#D4A96A;--gold-light:#F0E4CC;
+  --text:#1a1a1a;--ts:#6b6b6b;--tss:#999999;
+  --bg:#ffffff;--bgs:#f7f6f3;--bgss:#eeece8;
+  --bd:rgba(0,0,0,0.1);--bds:rgba(0,0,0,0.2);
+  --green-bg:#E1F5EE;--green-t:#0F6E56;
+  --red-bg:#FCEBEB;--red-t:#A32D2D;
+  --amber-bg:#FAEEDA;--amber-t:#854F0B;
+  --blue-bg:#E6F1FB;--blue-t:#0C447C;
+  --purple-bg:#EEEDFE;--purple-t:#3C3489;
+  --r:8px;--rl:12px;
+}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem}
+
+/* NAV */
+.doc-nav{display:flex;flex-wrap:wrap;gap:5px;padding:.75rem 0;border-bottom:0.5px solid var(--bd);margin-bottom:2rem;position:sticky;top:0;background:var(--bg);z-index:100}
+.doc-nav a{font-size:11px;color:var(--ts);text-decoration:none;padding:4px 10px;border:0.5px solid var(--bd);border-radius:100px;white-space:nowrap;transition:all 0.15s}
+.doc-nav a:hover{background:var(--bgs);color:var(--text)}
+
+/* HEADER */
+.hdr{border-bottom:0.5px solid var(--bd);padding-bottom:1.5rem;margin-bottom:2rem}
+.logo-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.brand{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;color:var(--text);letter-spacing:.2px}
+.brand span{color:var(--gold);font-weight:400}
+.dtag{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--ts);border:0.5px solid var(--bds);padding:4px 10px;border-radius:4px}
+.hdr-desc{font-size:13px;color:var(--ts);line-height:1.7;max-width:620px}
+
+/* SECTION */
+.part-label{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.6rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:500;color:var(--text);margin-bottom:.3rem}
+.sec-sub{font-size:13px;color:var(--ts);margin-bottom:1.5rem;line-height:1.7;max-width:660px}
+.divr{height:0.5px;background:var(--bd);margin:2.75rem 0}
+.nl{font-size:11px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--ts);display:block;margin-bottom:6px}
+.footnote{font-size:11.5px;color:var(--tss);font-style:italic;margin-top:.5rem;line-height:1.6}
+
+/* PRINT BTN */
+.pbtn{display:flex;align-items:center;gap:6px;border:0.5px solid var(--bds);background:var(--bg);border-radius:var(--r);padding:8px 14px;font-size:13px;color:var(--ts);cursor:pointer;float:right;margin-bottom:1rem}
+.pbtn:hover{background:var(--bgs)}
+
+/* CALCULATOR */
+.calc-box{background:var(--bgs);border-radius:var(--rl);border:0.5px solid var(--bd);padding:1.5rem}
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.s-lbl{font-size:12.5px;color:var(--ts);width:145px;flex-shrink:0}
+.slider-row input[type=range]{flex:1;accent-color:var(--gold)}
+.s-val{font-size:13px;font-weight:500;color:var(--text);width:100px;text-align:right;flex-shrink:0}
+.rate-row{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
+.rc{border:0.5px solid var(--bds);border-radius:100px;padding:7px 16px;font-size:12.5px;cursor:pointer;background:var(--bg);color:var(--ts);transition:all .15s}
+.rc.on{background:var(--gold-light);border-color:var(--gold);color:#7A5E30;font-weight:500}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.rcard{border-radius:var(--r);padding:12px 14px}
+.rcard.tot{background:var(--bg);border:1px solid var(--gold-mid)}
+.rcard.ctr{background:var(--blue-bg)}
+.rcard.rea{background:var(--green-bg)}
+.rcard.gns{background:var(--amber-bg)}
+.rv-l{font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.rcard.tot .rv-l{color:var(--gold)}.rcard.ctr .rv-l{color:var(--blue-t)}.rcard.rea .rv-l{color:var(--green-t)}.rcard.gns .rv-l{color:var(--amber-t)}
+.rv-n{font-family:'Playfair Display',serif;font-size:19px;font-weight:500;line-height:1.2}
+.rcard.tot .rv-n{color:var(--text)}.rcard.ctr .rv-n{color:var(--blue-t)}.rcard.rea .rv-n{color:var(--green-t)}.rcard.gns .rv-n{color:var(--amber-t)}
+.sbar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-bottom:6px}
+.sbar-c{height:100%;background:#378ADD;opacity:.65;transition:width .5s}
+.sbar-g{height:100%;background:#1D9E75;opacity:.75;transition:width .5s}
+.sbar-leg{display:flex;gap:16px;margin-bottom:10px}
+.sl-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ts)}
+.sl-d{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.colchon{font-size:13px;color:var(--ts);padding:10px 14px;background:var(--bg);border-radius:var(--r);border-left:2.5px solid var(--bds);line-height:1.6}
+
+/* ASSETS */
+.asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.acard{border:0.5px solid var(--bd);border-radius:var(--rl);padding:14px;background:var(--bg);cursor:pointer;transition:border-color .15s}
+.acard:hover{border-color:var(--bds)}
+.acard.open{border-color:var(--gold-mid)}
+.acard.tech{border-color:var(--bds);background:var(--purple-bg)}
+.acard.minor{opacity:.65;border-style:dashed}
+.ac-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.ac-ico{width:38px;height:38px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.ac-name{font-size:13.5px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:2px}
+.ac-sub{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:.3px;margin-bottom:2px}
+.ac-desc{font-size:11px;color:var(--ts);line-height:1.4}
+.ac-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.ast{border-radius:var(--r);padding:7px 9px;background:var(--bgs)}
+.ast-l{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--ts);margin-bottom:2px}
+.ast-v{font-size:12px;font-weight:500;color:var(--text)}
+.ast-v.neg{color:var(--red-t)}.ast-v.pos{color:var(--green-t)}.ast-v.warn{color:var(--amber-t)}
+.expand-hint{font-size:10.5px;color:var(--ts);margin-bottom:4px;font-style:italic}
+.ac-detail{display:none;border-top:0.5px solid var(--bd);padding-top:10px;margin-top:4px}
+.acard.open .ac-detail{display:block}
+.dp-row{display:flex;gap:6px;margin-bottom:8px}
+.dp{flex:1;border-radius:var(--r);padding:9px 11px;font-size:12px;line-height:1.5}
+.dp.pro{background:var(--green-bg);color:var(--green-t)}.dp.con{background:var(--red-bg);color:var(--red-t)}
+.dp .dpl{font-size:10px;font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.mag7{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.mag7 span{font-size:10px;background:var(--bg);border:0.5px solid var(--bd);border-radius:3px;padding:3px 7px;color:var(--ts)}
+.minor-note{font-size:11.5px;color:var(--ts);font-style:italic;margin-top:6px;padding:7px 10px;background:var(--bgss);border-radius:var(--r);line-height:1.5}
+
+/* CHART */
+.chart-wrap{background:var(--bgs);border-radius:var(--rl);border:0.5px solid var(--bd);padding:1rem;margin-bottom:.75rem}
+.chart-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.cl-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ts)}
+.cl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* PROFILES */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.pcard{border:0.5px solid var(--bd);border-radius:var(--rl);padding:16px;background:var(--bg)}
+.pname{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;color:var(--text);margin-bottom:3px}
+.prisk-badge{display:inline-block;font-size:10px;font-weight:500;padding:3px 9px;border-radius:100px;margin-bottom:7px;letter-spacing:.3px}
+.pret{font-size:12px;color:var(--ts);margin-bottom:8px;line-height:1.5}
+.abar{display:flex;height:9px;border-radius:5px;overflow:hidden;margin-bottom:7px}
+.aseg{height:100%}
+.aleg{display:flex;flex-wrap:wrap;gap:5px}
+.al{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ts)}
+.ald{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+
+/* DOLLAR COMPARISON */
+.drow{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.dlabel{font-size:12.5px;color:var(--text);width:200px;flex-shrink:0;line-height:1.4}
+.dtrack{flex:1;background:var(--bgs);border-radius:3px;height:32px;overflow:hidden}
+.dfill{height:100%;border-radius:3px;display:flex;align-items:center;padding:0 10px;min-width:55px;transition:width .6s}
+.damt{font-size:12px;font-weight:500;color:white;white-space:nowrap}
+.real-note{font-size:10px;color:var(--red-t);margin-left:6px;white-space:nowrap}
+
+/* CRISIS */
+.crisis-block{margin-bottom:1.75rem}
+.crisis-head{font-size:13.5px;font-weight:500;color:var(--text);padding:9px 14px;background:var(--bgs);border-radius:var(--r);border-left:3px solid var(--gold-mid);margin-bottom:10px;line-height:1.4}
+.rec-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.rec-lbl{font-size:12px;color:var(--text);width:170px;flex-shrink:0;line-height:1.3}
+.rec-bar-wrap{flex:1;height:26px}
+.rec-bar{height:100%;border-radius:3px;display:flex;align-items:center;padding:0 10px;min-width:60px}
+.rec-bar.neg{background:var(--red-bg)}.rec-bar.pos{background:var(--green-bg)}
+.rec-pct{font-size:11.5px;font-weight:500}
+.rec-bar.neg .rec-pct{color:var(--red-t)}.rec-bar.pos .rec-pct{color:var(--green-t)}
+.rec-time{font-size:10.5px;color:var(--ts);margin-left:8px;flex-shrink:0;font-style:italic}
+
+/* CORRELATION */
+.corr-wrap{overflow-x:auto;margin-bottom:.75rem}
+.corr-table{border-collapse:collapse;font-size:12px;min-width:500px;width:100%}
+.corr-table th,.corr-table td{border:0.5px solid var(--bd);text-align:center;padding:9px 8px}
+.corr-table th{background:var(--bgs);font-size:10.5px;font-weight:500;color:var(--ts);text-transform:uppercase;letter-spacing:.4px}
+.corr-table .row-h{font-size:10.5px;font-weight:500;color:var(--ts);text-align:right;padding-right:12px;background:var(--bgs);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.c-self{background:var(--bgss);color:var(--ts)}
+.c-pos{background:#FCEBEB;color:var(--red-t);font-weight:500}
+.c-neg{background:#E1F5EE;color:var(--green-t);font-weight:500}
+.c-neu{color:var(--ts)}
+
+/* ARGENTINA */
+.arg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.arg-card{border:0.5px solid var(--bd);border-radius:var(--r);padding:16px;background:var(--bg)}
+.arg-ico{font-size:24px;margin-bottom:7px}
+.arg-title{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:5px}
+.arg-body{font-size:12.5px;color:var(--ts);line-height:1.7}
+.arg-body strong{color:var(--text);font-weight:500}
+
+/* MYTHS */
+.myth-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.myth-card{border:0.5px solid var(--bd);border-radius:var(--r);padding:16px;background:var(--bg)}
+.myth-q{font-size:14px;font-style:italic;color:var(--text);margin-bottom:9px;line-height:1.5}
+.myth-badge{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:3px;margin-bottom:9px}
+.badge-mito{background:var(--red-bg);color:var(--red-t)}
+.badge-rel{background:var(--amber-bg);color:var(--amber-t)}
+.badge-inc{background:var(--bgs);color:var(--ts)}
+.myth-body{font-size:12.5px;color:var(--ts);line-height:1.7}
+
+/* PRINCIPLES */
+.principle-list{display:flex;flex-direction:column;gap:14px;margin-bottom:1rem}
+.principle{border:0.5px solid var(--bd);border-radius:var(--rl);padding:20px 22px;background:var(--bg);display:flex;gap:18px;align-items:flex-start}
+.p-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold-mid);line-height:1;flex-shrink:0;width:44px}
+.p-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.4}
+.p-desc{font-size:13px;color:var(--ts);line-height:1.75}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:7px;margin-bottom:1rem}
+.faq{border:0.5px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.fq{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:15px 18px;cursor:pointer;background:var(--bg);user-select:none;transition:background .15s}
+.fq:hover{background:var(--bgs)}
+.fq-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.5}
+.fi{font-size:20px;color:var(--ts);flex-shrink:0;transition:transform .2s;line-height:1;margin-top:2px}
+.faq.open .fi{transform:rotate(45deg)}
+.fa{display:none;padding:14px 18px;font-size:13px;color:var(--ts);line-height:1.8;border-top:0.5px solid var(--bd)}
+.faq.open .fa{display:block}
+
+/* GLOSSARY */
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1rem}
+.gitem{border-left:3px solid var(--gold-mid);padding:11px 15px;background:var(--bgs);border-radius:0 var(--r) var(--r) 0}
+.gterm{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.gdef{font-size:12px;color:var(--ts);line-height:1.65}
+
+@media(max-width:600px){
+  .result-grid{grid-template-columns:1fr 1fr}
+  .asset-grid,.profile-grid,.arg-grid,.myth-grid,.gloss-grid{grid-template-columns:1fr}
+  .s-lbl{width:100px}
+  .dlabel{width:130px}
+  .rec-lbl{width:110px}
+  .principle{flex-direction:column;gap:6px}
+  .p-num{font-size:28px}
+}
+@media print{
+  .pbtn,.doc-nav{display:none!important}
+  .acard.open .ac-detail,.fa{display:block!important}
+  body{font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<button class="pbtn" onclick="window.print()">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="1" width="10" height="6" rx="1"/><path d="M3 7H2a1 1 0 00-1 1v4h3M13 7h1a1 1 0 011 1v4h-3M3 11h10v4H3z"/></svg>
+  Imprimir / Guardar PDF
+</button>
+
+<div class="hdr">
+  <div class="logo-row">
+    <div class="brand">Mapa del <span>Mercado de Capitales</span></div>
+    <div class="dtag">Guía Completa · 2025</div>
+  </div>
+  <p class="hdr-desc">Documento unificado para usar en reunión y llevar como referencia. Los retornos reflejan un mix entre promedios históricos de largo plazo y estimados actuales ajustados a valuaciones vigentes. No representan rendimientos futuros garantizados.</p>
+</div>
+
+<nav class="doc-nav">
+  <a href="#calc">Calculadora</a>
+  <a href="#activos">Activos</a>
+  <a href="#riesgo">Riesgo–Retorno</a>
+  <a href="#perfiles">Perfiles</a>
+  <a href="#dolar">Comparador USD</a>
+  <a href="#crisis">Crisis</a>
+  <a href="#correlacion">Correlación</a>
+  <a href="#argentina">Argentina</a>
+  <a href="#mitos">Mitos</a>
+  <a href="#principios">Principios</a>
+  <a href="#faq">FAQ</a>
+  <a href="#glosario">Glosario</a>
+</nav>
+
+<!-- ===== S1: CALCULADORA ===== -->
+<section id="calc">
+  <span class="part-label">Parte 1 · Herramienta de reunión</span>
+  <div class="sec-title">¿Cuánto puede crecer tu dinero?</div>
+  <div class="sec-sub">Mové los controles y observá cómo el tiempo y el interés compuesto trabajan. Los valores se muestran en términos nominales, en valor real (ajustado por inflación USD ~3% anual histórico) y en ganancia generada por el mercado.</div>
+  <div class="calc-box">
+    <div class="slider-row"><span class="s-lbl">Capital inicial (USD)</span><input type="range" id="sv-pv" min="500" max="20000" step="500" value="5000" oninput="upCalc()"><span class="s-val" id="lv-pv">$5,000</span></div>
+    <div class="slider-row"><span class="s-lbl">Aporte mensual (USD)</span><input type="range" id="sv-pmt" min="0" max="1000" step="50" value="200" oninput="upCalc()"><span class="s-val" id="lv-pmt">$200</span></div>
+    <div class="slider-row"><span class="s-lbl">Plazo de inversión</span><input type="range" id="sv-n" min="1" max="25" step="1" value="12" oninput="upCalc()"><span class="s-val" id="lv-n">12 años</span></div>
+    <span class="nl" style="margin-top:4px">Perfil / Rendimiento nominal anual estimado (USD)</span>
+    <div class="rate-row" id="rateRow">
+      <button class="rc" onclick="selRate(this,0.045)">🛡 Conservador (4.5%)</button>
+      <button class="rc on" onclick="selRate(this,0.065)">⚖ Moderado (6.5%)</button>
+      <button class="rc" onclick="selRate(this,0.085)">📈 Crecimiento (8.5%)</button>
+      <button class="rc" onclick="selRate(this,0.11)">🚀 Agresivo (11%)</button>
+    </div>
+    <div class="result-grid">
+      <div class="rcard tot"><div class="rv-l">Total nominal</div><div class="rv-n" id="res-tot">$0</div></div>
+      <div class="rcard ctr"><div class="rv-l">Tu aporte total</div><div class="rv-n" id="res-ctr">$0</div></div>
+      <div class="rcard rea"><div class="rv-l">Valor real (inflac. USD)</div><div class="rv-n" id="res-real">$0</div></div>
+      <div class="rcard gns"><div class="rv-l">Genera el mercado</div><div class="rv-n" id="res-gns">$0</div></div>
+    </div>
+    <div class="sbar"><div class="sbar-c" id="seg-c" style="width:50%"></div><div class="sbar-g" id="seg-g" style="width:50%"></div></div>
+    <div class="sbar-leg">
+      <div class="sl-i"><div class="sl-d" style="background:#378ADD;opacity:.7"></div>Tu aporte acumulado</div>
+      <div class="sl-i"><div class="sl-d" style="background:#1D9E75;opacity:.8"></div>Ganancia generada por el mercado</div>
+      <div class="sl-i" style="font-style:italic">La inflación USD histórica (~3%/año) reduce el valor real del total nominal</div>
+    </div>
+    <div class="colchon" id="colchon-note">Calculando...</div>
+  </div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S2: ACTIVOS ===== -->
+<section id="activos">
+  <div class="sec-title">¿En qué se puede invertir?</div>
+  <div class="sec-sub">Los principales activos del mercado global — con retornos que combinan el histórico de largo plazo con estimados ajustados al contexto actual de valuaciones. Hacé clic en cada carta para ver el detalle completo.</div>
+  <div class="asset-grid" id="assetGrid"></div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S3: RIESGO-RETORNO ===== -->
+<section id="riesgo">
+  <div class="sec-title">La relación riesgo–retorno</div>
+  <div class="sec-sub">No existe activo que ofrezca alto retorno con bajo riesgo de forma sostenida. Esta es la ley fundamental del mercado. Posición de cada activo según volatilidad histórica anual y retorno estimado.</div>
+  <div class="chart-wrap">
+    <svg id="chartSvg" viewBox="0 0 660 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
+  </div>
+  <div class="chart-legend" id="chartLegend"></div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S4: PERFILES ===== -->
+<section id="perfiles">
+  <div class="sec-title">Perfiles de cartera</div>
+  <div class="sec-sub">Composiciones típicas según tolerancia al riesgo y horizonte. Incluyen tecnología (QQQ) como componente explícito en crecimiento y agresivo. Real estate excluido como componente principal — puede aparecer marginalmente vía ETFs sectoriales.</div>
+  <div class="profile-grid" id="profileGrid"></div>
+  <p class="footnote">Retornos estimados para horizonte 10+ años, combinando históricos con valuaciones actuales. No representan rendimientos garantizados. Real estate no incluido como línea principal — puede incorporarse puntualmente via REITs o ETFs.</p>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S5: DÓLAR ===== -->
+<section id="dolar">
+  <div class="sec-title">¿Cuánto rindió el dólar guardado?</div>
+  <div class="sec-sub">$10,000 USD a comienzos de 2010, medido a comienzos de 2024 (14 años). El dólar guardado no es una inversión segura — es una inversión que pierde poder adquisitivo de forma garantizada.</div>
+  <div id="dollarGrid"></div>
+  <p class="footnote">Datos aproximados en USD, con reinversión de dividendos y cupones. El dólar guardado perdió ~26% de poder adquisitivo real (inflación USD acumulada 2010–2024). Los rendimientos pasados no garantizan resultados futuros. Nasdaq/QQQ: retorno real del período, no estimado proyectado.</p>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S6: CRISIS ===== -->
+<section id="crisis">
+  <span class="part-label">Parte 2 · Referencia completa</span>
+  <div class="sec-title">¿Qué pasó en las grandes crisis?</div>
+  <div class="sec-sub">La caída es la mitad de la historia. La recuperación es la otra — y es la que define si mantener la posición fue la decisión correcta. Conocer el comportamiento de cada activo en las peores crisis es la vacuna contra el pánico.</div>
+  <div id="recoveryWrap"></div>
+  <p class="footnote">(*) Recuperación al nivel previo a la crisis, en USD nominal. (**) Nasdaq 2000–2002: cayó ~83%, tardó ~15 años en recuperar en términos reales. Muestra que la concentración tecnológica puede tener consecuencias históricamente severas.</p>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S7: CORRELACIÓN ===== -->
+<section id="correlacion">
+  <div class="sec-title">¿Cuáles activos se mueven juntos?</div>
+  <div class="sec-sub">La diversificación real se construye combinando activos que no caen al mismo tiempo. Esta tabla es orientativa — las correlaciones varían con el tiempo y pueden romperse en crisis extremas (como en 2022, cuando bonos y acciones cayeron juntos).</div>
+  <div class="corr-wrap"><table class="corr-table" id="corrTable"></table></div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:1rem;font-size:11.5px;color:var(--ts)">
+    <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;background:#FCEBEB;border-radius:2px"></div>Caen juntos — menos diversificación</div>
+    <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;background:#E1F5EE;border-radius:2px"></div>Tienden a moverse en opuesto — buena combinación</div>
+    <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;background:#eeece8;border-radius:2px;border:0.5px solid #ccc"></div>Sin relación clara — neutral</div>
+  </div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S8: ARGENTINA ===== -->
+<section id="argentina">
+  <div class="sec-title">Cómo invertir desde Argentina</div>
+  <div class="sec-sub">Acceder al mercado global es más simple de lo que la mayoría imagina. Estas son las principales vías disponibles para un inversor argentino, sus ventajas y lo que hay que saber de cada una.</div>
+  <div class="arg-grid" id="argGrid"></div>
+  <p class="footnote">La situación impositiva varía según instrumento, monto y jurisdicción (Bienes Personales, Ganancias sobre dividendos y ganancias de capital). Consultá con un contador especializado antes de operar fuera del país.</p>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S9: MITOS ===== -->
+<section id="mitos">
+  <div class="sec-title">Mitos que frenan a los inversores</div>
+  <div class="sec-sub">Creencias muy extendidas — especialmente en Argentina — que, si no se trabajan desde el inicio, distorsionan las decisiones durante toda la relación de asesoramiento.</div>
+  <div class="myth-grid" id="mythGrid"></div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S10: PRINCIPIOS ===== -->
+<section id="principios">
+  <div class="sec-title">Principios que el mercado siempre confirma</div>
+  <div class="sec-sub">No son predicciones ni teorías. Son lecciones que emergieron de cien años de datos, crisis, recuperaciones y errores. Ningún ciclo de mercado los anuló — todos volvieron a confirmarse.</div>
+  <div class="principle-list" id="principleList"></div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S11: FAQ ===== -->
+<section id="faq">
+  <div class="sec-title">Preguntas frecuentes</div>
+  <div class="sec-sub">Las dudas más comunes que todo inversor nuevo trae a la primera reunión — respondidas con la profundidad que merecen, sin simplificar lo que es complejo ni complicar lo que es simple.</div>
+  <div class="faq-list" id="faqList"></div>
+</section>
+
+<div class="divr"></div>
+
+<!-- ===== S12: GLOSARIO ===== -->
+<section id="glosario">
+  <div class="sec-title">Glosario de términos</div>
+  <div class="sec-sub">Los conceptos que vas a escuchar con más frecuencia en el mundo de las inversiones — definidos sin jerga, con el nivel de detalle necesario para entenderlos de verdad y no solo repetirlos.</div>
+  <div class="gloss-grid" id="glossGrid"></div>
+</section>
+</div>
+
+<script>
+// ============================================================
+// CALCULATOR
+// ============================================================
+var currentRate = 0.065;
+var inflRate = 0.03;
+
+function fmt(n){ return '$' + Math.round(n).toLocaleString('es-AR'); }
+
+function calcFV(pv, pmt, r, n){
+  if(r===0){ var t=pv+pmt*12*n; return{tot:t,ctr:t,real:t,gns:0}; }
+  var rm=r/12, m=n*12;
+  var fvPV=pv*Math.pow(1+r,n);
+  var fvPMT=pmt>0?pmt*(Math.pow(1+rm,m)-1)/rm:0;
+  var tot=fvPV+fvPMT, ctr=pv+pmt*m, gns=tot-ctr;
+  var real=tot/Math.pow(1+inflRate,n);
+  return{tot:Math.round(tot),ctr:Math.round(ctr),real:Math.round(real),gns:Math.round(gns)};
+}
+
+function upCalc(){
+  var pv=+document.getElementById('sv-pv').value;
+  var pmt=+document.getElementById('sv-pmt').value;
+  var n=+document.getElementById('sv-n').value;
+  document.getElementById('lv-pv').textContent=fmt(pv);
+  document.getElementById('lv-pmt').textContent=fmt(pmt);
+  document.getElementById('lv-n').textContent=n+' año'+(n===1?'':'s');
+  var r=calcFV(pv,pmt,currentRate,n);
+  document.getElementById('res-tot').textContent=fmt(r.tot);
+  document.getElementById('res-ctr').textContent=fmt(r.ctr);
+  document.getElementById('res-real').textContent=fmt(r.real);
+  document.getElementById('res-gns').textContent=fmt(r.gns);
+  var cp=r.tot>0?Math.round(r.ctr/r.tot*100):50;
+  document.getElementById('seg-c').style.width=cp+'%';
+  document.getElementById('seg-g').style.width=(100-cp)+'%';
+  var realColchon=fmt(Math.round(r.ctr/Math.pow(1+inflRate,n)));
+  document.getElementById('colchon-note').innerHTML=
+    'Sin invertir, ese dinero guardado sería <strong>'+fmt(r.ctr)+'</strong> en números — pero solo <strong>'+
+    realColchon+'</strong> en poder adquisitivo real (la inflación en dólares lo erosiona). '+
+    'La diferencia frente a invertir: <strong>'+fmt(r.gns)+'</strong> generados por el mercado.';
+}
+
+function selRate(btn,r){
+  document.getElementById('rateRow').querySelectorAll('.rc').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on'); currentRate=r; upCalc();
+}
+upCalc();
+
+// ============================================================
+// ASSETS
+// ============================================================
+var assets=[
+  {
+    ico:'🏦',ib:'#E1F5EE',name:'Efectivo / Money Market',sub:null,cls:'',
+    desc:'Dinero en cuenta remunerada, fondos money market, letras del tesoro (T-Bills) o plazo fijo en USD.',
+    stats:[
+      {l:'Retorno estimado',v:'3.5–5% anual USD',c:''},
+      {l:'Volatilidad',v:'~1–2%',c:''},
+      {l:'Liquidez',v:'Inmediata',c:''},
+      {l:'Peor año',v:'Sin pérdidas nominales históricas',c:'pos'}
+    ],
+    pro:'Sin pérdida nominal. Con tasas Fed elevadas (2023-2024) rinde 4–5% prácticamente sin riesgo. Máxima disponibilidad inmediata.',
+    con:'Pierde contra la inflación a largo plazo. Cuando las tasas bajen, el rendimiento caerá. El 5% nominal con 3% de inflación USD es solo 2% de retorno real.',
+    extra:null
+  },
+  {
+    ico:'🏛',ib:'#EAF3DE',name:'Bonos soberanos (investment grade)',sub:null,cls:'',
+    desc:'Deuda de países desarrollados: EEUU (Treasuries), Alemania (Bunds), Francia, Japón. ETFs: TLT, IEF, BND.',
+    stats:[
+      {l:'Retorno estimado',v:'4–6% anual USD',c:''},
+      {l:'Volatilidad',v:'~5–8%',c:''},
+      {l:'Liquidez',v:'1–2 días hábiles',c:''},
+      {l:'Peor año reciente',v:'–15% (2022)',c:'neg'}
+    ],
+    pro:'Flujo de pagos predecible. Históricamente, excelente complemento a acciones — cuando la bolsa cae en crisis de demanda, los bonos suelen subir.',
+    con:'2022 demostró que los bonos también pierden fuerte cuando la inflación sube inesperadamente y las tasas suben. La correlación con acciones no es siempre negativa.',
+    extra:null
+  },
+  {
+    ico:'🏢',ib:'#FAEEDA',name:'Bonos corporativos',sub:null,cls:'',
+    desc:'Deuda de empresas privadas. Investment grade (sólidas) y high yield (mayor riesgo, mayor retorno). ETFs: LQD, HYG.',
+    stats:[
+      {l:'Retorno estimado',v:'5–7% anual USD',c:''},
+      {l:'Volatilidad',v:'~8–12%',c:''},
+      {l:'Liquidez',v:'1–3 días hábiles',c:''},
+      {l:'Peor año',v:'–15% en HY (2008)',c:'neg'}
+    ],
+    pro:'Mayor rendimiento que soberanos con riesgo moderado. Amplio espectro: desde IG conservador hasta HY más agresivo. Buena diversificación dentro de renta fija.',
+    con:'Riesgo de default empresarial. En crisis de liquidez extrema, los HY pueden volverse difíciles de vender sin pérdida severa. Correla más con acciones que los bonos soberanos.',
+    extra:null
+  },
+  {
+    ico:'📦',ib:'#EAF3DE',name:'ETFs / Fondos diversificados',sub:null,cls:'',
+    desc:'Vehículos que replican índices amplios o combinan múltiples activos. AGG (bonos), VTI (acciones EEUU), ACWI (mundial).',
+    stats:[
+      {l:'Retorno estimado',v:'5–8% anual USD',c:''},
+      {l:'Volatilidad',v:'~5–15% (según composición)',c:''},
+      {l:'Liquidez',v:'1–2 días hábiles',c:''},
+      {l:'Peor año',v:'Variable según composición',c:'warn'}
+    ],
+    pro:'Diversificación instantánea con comisiones muy bajas (TER 0.03–0.5%). Accesibles desde cualquier monto. Transparentes, líquidos y regulados.',
+    con:'El rendimiento depende completamente de la composición elegida. Un ETF sectorial puede ser tan volátil como una acción individual.',
+    extra:null
+  },
+  {
+    ico:'📈',ib:'#FCEBEB',name:'Acciones globales (S&P 500)',sub:null,cls:'',
+    desc:'Participación en las 500 mayores empresas de EEUU. ETFs principales: SPY, VOO, IVV. Incluye ~30% en tecnología.',
+    stats:[
+      {l:'Retorno estimado',v:'7–9% anual USD',c:''},
+      {l:'Volatilidad anual',v:'~15–18%',c:''},
+      {l:'Liquidez',v:'1–2 días hábiles',c:''},
+      {l:'Peor año',v:'–38% (2008)',c:'neg'}
+    ],
+    pro:'El mayor retorno histórico comprobado por ~100 años de datos: ~9.5% anual nominal. Índice más analizado y líquido del mundo. Incluye dividendos reinvertidos via ETF.',
+    con:'Caídas de –30% a –50% en crisis severas. El estimado a 10 años se modera a 7–9% por valuaciones actuales (P/E ~22x). Requiere paciencia real y convicción en caídas.',
+    extra:null
+  },
+  {
+    ico:'💻',ib:'#EEEDFE',name:'Tecnología (Nasdaq 100 / QQQ)',sub:'Magnificent 7 + innovación global',cls:'tech',
+    desc:'Las 100 mayores empresas tecnológicas en Nasdaq. ETF principal: QQQ. Alta concentración en las 7 mayores.',
+    stats:[
+      {l:'Retorno estimado',v:'9–13% anual USD',c:''},
+      {l:'Volatilidad anual',v:'~22–28%',c:''},
+      {l:'Liquidez',v:'1–2 días hábiles',c:''},
+      {l:'Peor año reciente',v:'–32% (2022)',c:'neg'}
+    ],
+    pro:'Mayor retorno histórico que el S&P500 en los últimos 20 años. Exposición directa a las empresas que dominan la economía digital global. Liquidez máxima vía ETF.',
+    con:'Alta concentración en pocos nombres. Valuaciones elevadas (P/E histórico alto). El crash de las puntocom (2000-2002) mostró que puede caer –83% y tardar 15 años en recuperar en términos reales.',
+    extra:{type:'mag7',label:'Los Magnificent 7 (representan ~45% del QQQ):',items:['Apple','Microsoft','Nvidia','Alphabet','Amazon','Meta','Tesla']}
+  },
+  {
+    ico:'🥇',ib:'#FAEEDA',name:'Oro / Metales preciosos',sub:null,cls:'',
+    desc:'Reserva de valor histórica de 5,000 años. Accesible vía ETF (GLD, IAU), físico o futuros.',
+    stats:[
+      {l:'Retorno estimado',v:'5–7% anual USD',c:''},
+      {l:'Volatilidad anual',v:'~15%',c:''},
+      {l:'Liquidez',v:'1–2 días (ETF) / Baja (físico)',c:''},
+      {l:'Crisis 2008',v:'+5% (fue refugio)',c:'pos'}
+    ],
+    pro:'Refugio en crisis sistémicas y geopolíticas. Excelente cobertura contra inflación y devaluación de monedas. Baja correlación con acciones en crisis de demanda.',
+    con:'No genera flujo de caja — no paga dividendos ni cupones. Puede estar estancado años en entornos de tasas altas y dólar fuerte. Retorno real histórico modesto.',
+    extra:null
+  },
+  {
+    ico:'₿',ib:'#FCEBEB',name:'Criptoactivos (Bitcoin / ETH)',sub:null,cls:'',
+    desc:'Activos digitales descentralizados. Desde enero 2024, accesibles via ETF spot aprobado en EEUU: IBIT (BlackRock), FBTC (Fidelity).',
+    stats:[
+      {l:'Retorno',v:'Variable — muy alta dispersión',c:'warn'},
+      {l:'Volatilidad anual',v:'~60–80%',c:''},
+      {l:'Liquidez',v:'Inmediata (24/7)',c:''},
+      {l:'Peor año',v:'–65% (2022) · –80% en ciclos bajistas',c:'neg'}
+    ],
+    pro:'Potencial de apreciación extrema. Descentralizado. Desde 2024 existen ETFs regulados en EEUU que reducen el riesgo operativo (no hay que custodiar claves privadas).',
+    con:'Sin flujo de caja intrínseco probado. Altamente especulativo. Regulación global incierta. No apto como núcleo de cartera. Alta correlación con activos de riesgo en caídas.',
+    extra:null
+  },
+  {
+    ico:'🏠',ib:'#f0ede8',name:'Real Estate',sub:'Referencia general — no es el foco de este servicio',cls:'minor',
+    desc:'Inmuebles directos o fondos inmobiliarios cotizantes (REITs). Activo real e importante en la economía global.',
+    stats:[
+      {l:'Retorno histórico',v:'6–9% anual USD',c:''},
+      {l:'Liquidez',v:'Baja (directo) / Media (REITs)',c:''},
+      {l:'Peor año',v:'–35% en REITs (2008)',c:'neg'},
+      {l:'Nota',v:'No es el foco de este servicio',c:'warn'}
+    ],
+    pro:'Renta pasiva, activo tangible, cobertura inflacionaria. Los REITs permiten acceso con liquidez similar a acciones desde cualquier monto.',
+    con:'Muy ilíquido en formato directo. Alta concentración geográfica. Correlaciona con acciones en crisis financieras. Requiere capital grande en formato directo.',
+    extra:{type:'note',text:'Este servicio no incluye asesoramiento en inmuebles directos. Puede aparecer marginalmente en cartera vía REITs o ETFs sectoriales cuando el perfil lo amerite.'}
+  }
+];
+
+function buildAssets(){
+  var g=document.getElementById('assetGrid');
+  assets.forEach(function(a){
+    var statsHtml=a.stats.map(function(s){
+      return '<div class="ast"><div class="ast-l">'+s.l+'</div><div class="ast-v'+(s.c?' '+s.c:'')+'">'+s.v+'</div></div>';
+    }).join('');
+    var extraHtml='';
+    if(a.extra){
+      if(a.extra.type==='mag7'){
+        extraHtml='<div style="margin-top:8px"><div class="ast-l" style="margin-bottom:5px">'+a.extra.label+'</div><div class="mag7">'+
+          a.extra.items.map(function(i){return'<span>'+i+'</span>'}).join('')+'</div></div>';
+      } else if(a.extra.type==='note'){
+        extraHtml='<div class="minor-note">'+a.extra.text+'</div>';
+      }
+    }
+    var card=document.createElement('div');
+    card.className='acard'+(a.cls?' '+a.cls:'');
+    card.innerHTML=
+      '<div class="ac-top"><div class="ac-ico" style="background:'+a.ib+'">'+a.ico+'</div>'
+      +'<div><div class="ac-name">'+a.name+'</div>'
+      +(a.sub?'<div class="ac-sub">'+a.sub+'</div>':'')
+      +'<div class="ac-desc">'+a.desc+'</div></div></div>'
+      +'<div class="ac-stats">'+statsHtml+'</div>'
+      +'<div class="expand-hint">Clic para ver pros, contras y detalle completo</div>'
+      +'<div class="ac-detail">'
+      +'<div class="dp-row"><div class="dp pro"><div class="dpl">✓ A favor</div>'+a.pro+'</div>'
+      +'<div class="dp con"><div class="dpl">✕ En contra</div>'+a.con+'</div></div>'
+      +extraHtml+'</div>';
+    card.onclick=function(){
+      var wasOpen=card.classList.contains('open');
+      document.querySelectorAll('.acard').forEach(function(c){c.classList.remove('open')});
+      if(!wasOpen)card.classList.add('open');
+    };
+    g.appendChild(card);
+  });
+}
+buildAssets();
+
+// ============================================================
+// RISK-RETURN CHART
+// ============================================================
+function buildChart(){
+  var svg=document.getElementById('chartSvg');
+  var px=70,py=20,pw=540,ph=250,xMax=32,yMax=15;
+  function xp(v){return px+v/xMax*pw}
+  function yp(v){return py+ph-(v/yMax*ph)}
+  var out='';
+  for(var xi=0;xi<=8;xi++){
+    var xv=xi*4,xpos=xp(xv);
+    out+='<line x1="'+xpos+'" y1="'+py+'" x2="'+xpos+'" y2="'+(py+ph)+'" stroke="#aaa" stroke-width="0.5" stroke-opacity="0.25"/>';
+    if(xi%2===0)out+='<text x="'+xpos+'" y="'+(py+ph+14)+'" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#999">'+xv+'%</text>';
+  }
+  for(var yi=0;yi<=5;yi++){
+    var yv=yi*3,ypos=yp(yv);
+    out+='<line x1="'+px+'" y1="'+ypos+'" x2="'+(px+pw)+'" y2="'+ypos+'" stroke="#aaa" stroke-width="0.5" stroke-opacity="0.25"/>';
+    out+='<text x="'+(px-6)+'" y="'+(ypos+4)+'" text-anchor="end" font-family="DM Sans,sans-serif" font-size="10" fill="#999">'+yv+'%</text>';
+  }
+  out+='<line x1="'+px+'" y1="'+py+'" x2="'+px+'" y2="'+(py+ph)+'" stroke="#aaa" stroke-width="0.5" stroke-opacity="0.5"/>';
+  out+='<line x1="'+px+'" y1="'+(py+ph)+'" x2="'+(px+pw)+'" y2="'+(py+ph)+'" stroke="#aaa" stroke-width="0.5" stroke-opacity="0.5"/>';
+  out+='<text x="'+(px+pw/2)+'" y="'+(py+ph+28)+'" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#999" font-style="italic">Riesgo / Volatilidad anual →</text>';
+  out+='<text x="'+(px-44)+'" y="'+(py+ph/2)+'" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#999" font-style="italic" transform="rotate(-90,'+(px-44)+','+(py+ph/2)+')">Retorno anual estimado →</text>';
+  var dots=[
+    {n:'Efectivo',vol:1.5,ret:4.25,c:'#1D9E75',lx:null,ly:null,la:'middle'},
+    {n:'Bonos IG',vol:6,ret:5,c:'#3B6D11',lx:null,ly:null,la:'middle'},
+    {n:'Bonos corp.',vol:10,ret:6,c:'#BA7517',lx:null,ly:20,la:'middle'},
+    {n:'ETFs diversif.',vol:8,ret:6.5,c:'#639922',lx:null,ly:null,la:'middle'},
+    {n:'S&P 500',vol:17,ret:8,c:'#E24B4A',lx:null,ly:null,la:'middle'},
+    {n:'Nasdaq / QQQ',vol:25,ret:11,c:'#7F77DD',lx:null,ly:null,la:'middle'},
+    {n:'Oro',vol:15,ret:6,c:'#BA7517',lx:-40,ly:5,la:'end'},
+    {n:'Real Estate',vol:16,ret:7,c:'#aaaaaa',lx:null,ly:18,la:'middle'},
+  ];
+  dots.forEach(function(d){
+    var cx=xp(d.vol),cy=yp(d.ret);
+    out+='<circle cx="'+cx+'" cy="'+cy+'" r="9" fill="'+d.c+'" fill-opacity="0.82"/>';
+    var lx=(d.lx!=null?cx+d.lx:cx), ly=(d.ly!=null?cy+d.ly:cy-14);
+    out+='<text x="'+lx+'" y="'+ly+'" text-anchor="'+(d.la||'middle')+'" font-family="DM Sans,sans-serif" font-size="9.5" fill="#666">'+d.n+'</text>';
+  });
+  out+='<text x="'+(px+pw-8)+'" y="'+(py+14)+'" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#A32D2D" font-style="italic">₿ Cripto: vol ~65%, retorno variable (fuera de escala)</text>';
+  svg.innerHTML=out;
+  var ld=document.getElementById('chartLegend');
+  [{l:'Efectivo / conservador',c:'#1D9E75'},{l:'Renta fija',c:'#BA7517'},{l:'Acciones globales',c:'#E24B4A'},{l:'Tecnología (QQQ)',c:'#7F77DD'},{l:'Oro',c:'#c9a040'},{l:'Real Estate (referencia)',c:'#aaaaaa'}].forEach(function(x){
+    var d=document.createElement('div');d.className='cl-item';
+    d.innerHTML='<div class="cl-dot" style="background:'+x.c+'"></div><span>'+x.l+'</span>';
+    ld.appendChild(d);
+  });
+}
+buildChart();
+
+// ============================================================
+// PORTFOLIO PROFILES
+// ============================================================
+var profiles=[
+  {
+    name:'Conservador',riskLabel:'Riesgo bajo',rb:'#E1F5EE',rc:'#0F6E56',
+    ret:'Retorno estimado: 4–5% USD/año nominal · ~1–2% real',
+    alloc:[{n:'Money Market / T-Bills',p:30,c:'#1D9E75'},{n:'Bonos soberanos IG',p:38,c:'#3B6D11'},{n:'Bonos corp. IG',p:17,c:'#BA7517'},{n:'Acciones globales',p:10,c:'#E24B4A'},{n:'Oro',p:5,c:'#c9a040'}]
+  },
+  {
+    name:'Moderado',riskLabel:'Riesgo medio',rb:'#FAEEDA',rc:'#854F0B',
+    ret:'Retorno estimado: 5.5–7% USD/año nominal · ~2.5–4% real',
+    alloc:[{n:'Money Market / T-Bills',p:10,c:'#1D9E75'},{n:'Bonos soberanos',p:20,c:'#3B6D11'},{n:'Bonos corp.',p:18,c:'#BA7517'},{n:'Acciones globales (S&P)',p:37,c:'#E24B4A'},{n:'Oro',p:10,c:'#c9a040'},{n:'Cripto (opc.)',p:5,c:'#A32D2D'}]
+  },
+  {
+    name:'Crecimiento',riskLabel:'Riesgo medio-alto',rb:'#FAECE7',rc:'#712B13',
+    ret:'Retorno estimado: 7.5–10% USD/año nominal · ~4.5–7% real',
+    alloc:[{n:'Money Market',p:5,c:'#1D9E75'},{n:'Bonos corp.',p:12,c:'#BA7517'},{n:'Acciones globales (S&P)',p:43,c:'#E24B4A'},{n:'Tecnología (QQQ)',p:20,c:'#7F77DD'},{n:'Oro',p:12,c:'#c9a040'},{n:'Cripto',p:8,c:'#A32D2D'}]
+  },
+  {
+    name:'Agresivo',riskLabel:'Riesgo alto',rb:'#FCEBEB',rc:'#A32D2D',
+    ret:'Retorno estimado: 10–14% USD/año nominal · ~7–11% real',
+    alloc:[{n:'Money Market',p:5,c:'#1D9E75'},{n:'Acciones globales (S&P)',p:40,c:'#E24B4A'},{n:'Tecnología (QQQ)',p:30,c:'#7F77DD'},{n:'Oro',p:10,c:'#c9a040'},{n:'Cripto',p:15,c:'#A32D2D'}]
+  }
+];
+var pg=document.getElementById('profileGrid');
+profiles.forEach(function(p){
+  var bar=p.alloc.map(function(a){return'<div class="aseg" style="width:'+a.p+'%;background:'+a.c+'"></div>'}).join('');
+  var leg=p.alloc.map(function(a){return'<div class="al"><div class="ald" style="background:'+a.c+'"></div>'+a.p+'% '+a.n+'</div>'}).join('');
+  var d=document.createElement('div');d.className='pcard';
+  d.innerHTML='<div class="pname">'+p.name+'</div>'
+    +'<span class="prisk-badge" style="background:'+p.rb+';color:'+p.rc+'">'+p.riskLabel+'</span>'
+    +'<div class="pret">'+p.ret+'</div>'
+    +'<div class="abar">'+bar+'</div>'
+    +'<div class="aleg">'+leg+'</div>';
+  pg.appendChild(d);
+});
+
+// ============================================================
+// DOLLAR COMPARISON
+// ============================================================
+var dollarData=[
+  {label:'Dólar en colchón',note:'–26% poder adquisitivo real en 14 años',amount:10000,color:'#888'},
+  {label:'Bonos soberanos (~5%/yr)',note:null,amount:19800,color:'#3B6D11'},
+  {label:'Oro (~4.3%/yr)',note:null,amount:18200,color:'#BA7517'},
+  {label:'Acciones globales S&P 500 (~9.5%/yr)',note:null,amount:36000,color:'#E24B4A'},
+  {label:'Nasdaq 100 / QQQ (~16%/yr)',note:'Retorno real del período 2010–2024',amount:76000,color:'#7F77DD'},
+];
+var maxD=76000;
+var dg=document.getElementById('dollarGrid');
+dollarData.forEach(function(d){
+  var pct=Math.max(Math.round(d.amount/maxD*100),8);
+  var row=document.createElement('div');row.className='drow';
+  row.innerHTML='<div class="dlabel">'+d.label+(d.note?'<br><span style="font-size:10px;color:var(--tss);font-style:italic">'+d.note+'</span>':'')+'</div>'
+    +'<div class="dtrack"><div class="dfill" style="width:'+pct+'%;background:'+d.color+'"><span class="damt">'+fmt(d.amount)+'</span></div></div>';
+  dg.appendChild(row);
+});
+
+// ============================================================
+// CRISIS / RECOVERY
+// ============================================================
+var crises=[
+  {name:'Crisis financiera global 2008 — "La Gran Recesión"',items:[
+    {l:'S&P 500',pct:-38,rec:'Recuperó en ~48 meses (fines 2012)'},
+    {l:'Nasdaq / Tecnología',pct:-41,rec:'Recuperó en ~48 meses (junto al S&P)'},
+    {l:'Bonos soberanos',pct:+8,rec:'No cayó — actuó como refugio de valor'},
+    {l:'Real Estate (REITs)',pct:-35,rec:'Recuperó en ~72 meses (2014)'},
+    {l:'Oro',pct:+5,rec:'No cayó — fue refugio de valor'},
+  ]},
+  {name:'Pandemia COVID-19 2020 — Caída récord y recuperación récord',items:[
+    {l:'S&P 500',pct:-34,rec:'Recuperó en solo ~6 meses'},
+    {l:'Nasdaq / Tecnología',pct:-27,rec:'Recuperó en ~4 meses — el más rápido'},
+    {l:'Bonos soberanos',pct:+8,rec:'No cayó — fue refugio de valor'},
+    {l:'Oro',pct:+25,rec:'No cayó — subió fuertemente como refugio'},
+  ]},
+  {name:'Suba de tasas e inflación 2022 — El año que golpeó a casi todo',items:[
+    {l:'S&P 500',pct:-19,rec:'Recuperó en ~18 meses (fines 2023)'},
+    {l:'Nasdaq / Tecnología',pct:-32,rec:'Recuperó en ~24 meses (a lo largo de 2024)'},
+    {l:'Bonos soberanos',pct:-15,rec:'Recuperación parcial hacia finales de 2024 (*)'},
+    {l:'Cripto (BTC)',pct:-65,rec:'Recuperó y superó máximos históricos en 2024'},
+    {l:'Oro',pct:-1,rec:'Prácticamente sin impacto — gran resiliencia'},
+  ]},
+];
+var rw=document.getElementById('recoveryWrap');
+crises.forEach(function(c){
+  var maxAbs=Math.max.apply(null,c.items.map(function(x){return Math.abs(x.pct)}));
+  var rows=c.items.map(function(item){
+    var isPos=item.pct>=0, pct=Math.round(Math.abs(item.pct)/maxAbs*100);
+    return '<div class="rec-row"><span class="rec-lbl">'+item.l+'</span>'
+      +'<div class="rec-bar-wrap"><div class="rec-bar '+(isPos?'pos':'neg')+'" style="width:'+Math.max(pct,12)+'%">'
+      +'<span class="rec-pct">'+(isPos?'+':'')+item.pct+'%</span></div></div>'
+      +'<span class="rec-time">'+item.rec+'</span></div>';
+  }).join('');
+  var h=document.createElement('div');h.className='crisis-block';
+  h.innerHTML='<div class="crisis-head">'+c.name+'</div>'+rows;
+  rw.appendChild(h);
+});
+
+// ============================================================
+// CORRELATION
+// ============================================================
+var corrCols=['Acciones','Tecnología','Bonos','Oro','Cripto'];
+var corrRows=[
+  {label:'Acciones',data:['self','pos','neu','neg','pos']},
+  {label:'Tecnología',data:['pos','self','neu','neg','pos']},
+  {label:'Bonos',data:['neu','neu','self','neg','neu']},
+  {label:'Oro',data:['neg','neg','neg','self','neu']},
+  {label:'Cripto',data:['pos','pos','neu','neu','self']},
+];
+var corrIcons={self:'—',pos:'↑↑ Juntos',neg:'↑↓ Opuesto',neu:'↕ Neutro'};
+var corrCls={self:'c-self',pos:'c-pos',neg:'c-neg',neu:'c-neu'};
+var ct=document.getElementById('corrTable');
+var thead=document.createElement('thead');
+var hr='<tr><th></th>'+corrCols.map(function(c){return'<th>'+c+'</th>'}).join('')+'</tr>';
+thead.innerHTML=hr; ct.appendChild(thead);
+var tbody=document.createElement('tbody');
+corrRows.forEach(function(row){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td class="row-h">'+row.label+'</td>'+
+    row.data.map(function(d){return'<td class="'+corrCls[d]+'">'+corrIcons[d]+'</td>'}).join('');
+  tbody.appendChild(tr);
+});
+ct.appendChild(tbody);
+
+// ============================================================
+// ARGENTINA
+// ============================================================
+var argCards=[
+  {ico:'🇦🇷',title:'CEDEARs',body:'Certificados que permiten comprar acciones globales (Apple, Nvidia, Amazon, etc.) desde Argentina, en <strong>pesos o dólares</strong>, a través de cualquier broker local. Es la vía más simple y directa para acceder al mercado global sin abrir cuenta en el exterior.'},
+  {ico:'🏦',title:'Brokers locales (ALyCs)',body:'Plataformas habilitadas por la CNV: <strong>IOL invertironline, Balanz, PPI, Bull Market Brokers, Tomar Inversiones</strong>. Cada una tiene distintas comisiones, herramientas y acceso a instrumentos. Recomendable comparar antes de abrir cuenta.'},
+  {ico:'🌐',title:'Interactive Brokers',body:'El broker internacional más usado desde Argentina para acceder directamente al mercado de EEUU, Europa y Asia. Requiere apertura de cuenta en el exterior y transferencia de divisas. Ofrece el acceso más amplio a instrumentos globales.'},
+  {ico:'📦',title:'FCI (Fondos Comunes de Inversión)',body:'Fondos gestionados por sociedades gerentes locales. Los hay en <strong>pesos</strong> (money market, renta fija, balanceados) y en <strong>dólares</strong>. Accesibles desde muy poco capital. Buena opción para inversores que prefieren delegar la gestión.'},
+  {ico:'📄',title:'Obligaciones Negociables (ON)',body:'Deuda de empresas argentinas cotizante en dólares. Pagan tasa fija en USD (hard dollar). Son una alternativa local con rendimiento en dólares, sin riesgo de tipo de cambio. Ej: ONs de YPF, Pampa, Telecom.'},
+  {ico:'⚖',title:'Consideración impositiva',body:'Los activos en el exterior pueden estar alcanzados por <strong>Bienes Personales</strong>. Los dividendos y ganancias de capital pueden tributar <strong>Ganancias</strong>. La normativa cambia frecuentemente. Indispensable consultar con un contador especializado antes de operar.'},
+];
+var ag=document.getElementById('argGrid');
+argCards.forEach(function(a){
+  var d=document.createElement('div');d.className='arg-card';
+  d.innerHTML='<div class="arg-ico">'+a.ico+'</div><div class="arg-title">'+a.title+'</div><div class="arg-body">'+a.body+'</div>';
+  ag.appendChild(d);
+});
+
+// ============================================================
+// MYTHS
+// ============================================================
+var myths=[
+  {q:'"Las acciones son un casino"',badge:'badge-mito',bl:'MITO',body:'El casino siempre favorece a la casa. Las acciones, en el largo plazo, favorecen consistentemente al inversor. El S&P 500 nunca tuvo un período de 20 años con pérdida. La especulación de corto plazo puede parecerse al casino — pero eso es trading, no inversión. La confusión entre ambos es el origen de este mito.'},
+  {q:'"El dólar siempre gana"',badge:'badge-rel',bl:'RELATIVO',body:'El dólar gana contra el peso argentino casi siempre. Pero el dólar también pierde poder adquisitivo: ~26% real en los últimos 14 años. $10,000 guardados en 2010 siguen siendo $10,000 nominalmente — pero equivalen a ~$7,400 en dólares de hoy. Contra activos financieros globales, el dólar guardado pierde sistemáticamente.'},
+  {q:'"El ladrillo nunca baja"',badge:'badge-mito',bl:'MITO',body:'En 2008, los inmuebles en EEUU cayeron hasta un 35% — y fueron el epicentro de la crisis. En Argentina, en dólares, los precios de departamentos bajaron entre 2018 y 2023 en múltiples ciudades. El ladrillo tiene volatilidad real — solo que no se cotiza en pantalla cada día, lo que crea una ilusión de estabilidad que no existe.'},
+  {q:'"Hay que entrar en el momento justo"',badge:'badge-mito',bl:'MITO',body:'Ni los mejores inversores del mundo aciertan consistentemente el timing del mercado. Los estudios muestran que quien espera "el momento perfecto" termina, en promedio, con peores resultados que quien invierte de forma sistemática sin importar el precio de entrada. Cada día que se espera es un día que el interés compuesto no trabaja.'},
+  {q:'"Con poco dinero no vale la pena"',badge:'badge-mito',bl:'MITO',body:'Los ETFs y FCI permiten empezar desde $100 dólares. El interés compuesto funciona mejor cuanto antes se empieza — no cuánto más capital se tiene. $200 por mes durante 25 años a 7% anual generan ~$160,000. La mayoría de las fortunas familiares no se construyeron con una suma grande inicial sino con constancia a lo largo del tiempo.'},
+  {q:'"La tecnología ya subió demasiado para seguir subiendo"',badge:'badge-rel',bl:'RELATIVO',body:'Esta afirmación se escucha desde 2015 — y el Nasdaq siguió multiplicando. Dicho esto, las valuaciones actuales de las grandes tecnológicas son históricamente elevadas. El retorno futuro puede ser menor que el pasado. La respuesta correcta no es "evitar tecnología" sino "darle el peso adecuado al perfil del inversor" — presente en crecimiento y agresivo, con consciencia del riesgo de concentración.'},
+  {q:'"La cripto es el futuro del dinero, hay que estar adentro"',badge:'badge-inc',bl:'INCIERTO',body:'Puede ser el futuro — o puede no serlo. Lo cierto es que Bitcoin cayó un 80% en dos ocasiones en menos de 10 años. Apostar todo el capital a una tesis incierta, por convicción ideológica, es especulación — no inversión. Puede tener un lugar en una cartera como componente pequeño y especulativo (5–15%), pero nunca como núcleo.'},
+];
+var mg=document.getElementById('mythGrid');
+myths.forEach(function(m){
+  var d=document.createElement('div');d.className='myth-card';
+  d.innerHTML='<div class="myth-q">'+m.q+'</div>'
+    +'<span class="myth-badge '+m.badge+'">'+m.bl+'</span>'
+    +'<div class="myth-body">'+m.body+'</div>';
+  mg.appendChild(d);
+});
+
+// ============================================================
+// PRINCIPLES
+// ============================================================
+var principles=[
+  {
+    num:'01',
+    title:'Sin riesgo no hay retorno real — y no hay excepciones sostenibles',
+    desc:'Cada punto extra de rendimiento esperado implica asumir más volatilidad. Esta es la ley fundamental del mercado sin excepciones que duren. Si alguien ofrece alto retorno con bajo riesgo, hay algo que no se está viendo: un riesgo oculto, una restricción de liquidez, o directamente un fraude. Los activos "seguros" como el efectivo y los bonos soberanos generan menos porque tienen menos riesgo. Las acciones generan más porque sus precios caen un 30–50% en crisis. No existe una tercera opción. El trabajo del asesor no es eliminar el riesgo — es calibrarlo correctamente para cada persona y cada horizonte.'
+  },
+  {
+    num:'02',
+    title:'El tiempo es el activo más valioso — el interés compuesto no perdona a quien llega tarde',
+    desc:'Einstein lo llamó "la octava maravilla del mundo". El interés compuesto es el proceso por el cual el rendimiento se reinvierte y genera rendimiento sobre sí mismo — un efecto exponencial que se hace dramáticamente visible solo en el largo plazo. $10,000 a 8% anual se convierten en $21,589 en 10 años, $46,610 en 20 años, y $100,627 en 30 años. Sin agregar un solo dólar adicional. Esto significa que empezar a invertir 10 años más tarde no es "empezar más tarde" — es literalmente recortar a la mitad el resultado final. La consistencia y la paciencia no son cualidades deseables: son el mecanismo mismo que genera riqueza.'
+  },
+  {
+    num:'03',
+    title:'Diversificar no maximiza el retorno — protege la posibilidad de mantener la estrategia',
+    desc:'La diversificación es el único almuerzo gratis que existe en finanzas. Combinar activos que no caen al mismo tiempo reduce el riesgo total sin sacrificar proporcionalmente el retorno. Pero su beneficio más importante no es matemático: es conductual. Quien tiene una cartera diversificada (acciones + bonos + oro) pierde menos en las caídas — y eso le permite no vender en el peor momento. El inversor que tenía todo en acciones en 2008 y vendió en pánico con –38% perdió definitivamente; quien tenía una cartera mixta, resistió con –20% y recuperó. El error frecuente es evaluar la diversificación por si "maximizó el retorno" — cuando la métrica correcta es retorno ajustado por riesgo, en el largo plazo, habiendo podido mantener la posición.'
+  },
+  {
+    num:'04',
+    title:'La inflación es el enemigo silencioso — también la del dólar',
+    desc:'El efectivo guardado no es una inversión segura: es una inversión que pierde valor de forma garantizada y silenciosa. La inflación promedio en EEUU fue ~3% anual históricamente (con picos de 7–8% en 2021–2022). Con 3% anual, $100,000 pierden ~26% de poder adquisitivo en 10 años y ~45% en 20 años. Esto significa que quien "no hace nada" con su dinero está tomando una decisión activa: la de perder valor. El objetivo mínimo de cualquier estrategia de inversión es superar la inflación en dólares. En el contexto argentino, donde la inflación en pesos es otro problema adicional, la urgencia de este principio es aún mayor.'
+  },
+  {
+    num:'05',
+    title:'Las emociones son el peor consejero financiero — y el mercado lo sabe',
+    desc:'El mayor enemigo del inversor no es el mercado — es su propio comportamiento. Los estudios de Dalbar muestran consistentemente que los retornos reales que obtienen los inversores individuales son significativamente menores que los retornos del índice al que invierten — porque compran cuando el mercado está eufórico y venden cuando está en pánico. El mecanismo es simple: el mercado cae, el cliente llama asustado para "salir antes de que sea peor", vende en el piso, y pierde la recuperación entera. El mercado sube con fuerza, el cliente quiere "entrar ahora que está en racha", compra en el pico. Un buen asesor no solo diseña carteras: gestiona el comportamiento del cliente en los momentos difíciles. Esa gestión vale más que cualquier selección de activos.'
+  },
+  {
+    num:'06',
+    title:'La consistencia supera al timing — siempre, en todos los períodos estudiados',
+    desc:'Nadie puede predecir consistentemente los movimientos del mercado — ni Warren Buffett, ni los mejores fondos del mundo, ni los modelos de inteligencia artificial más sofisticados. Quien intenta "salir antes de que baje" y "entrar antes de que suba" termina, en promedio, con resultados significativamente peores que quien invierte de forma regular y mantiene la posición. Un famoso análisis de Fidelity sobre las cuentas con mejor rendimiento de su historia reveló algo sorprendente: eran cuentas de clientes que habían fallecido. Sus herederos no sabían que tenían la cuenta — y por tanto no hacían ninguna operación. La consistencia, aportar regularmente, no salir en las caídas, no perseguir rendimientos pasados — es la estrategia que más personas abandona y la que mejores resultados genera.'
+  },
+];
+var pl=document.getElementById('principleList');
+principles.forEach(function(p){
+  var d=document.createElement('div');d.className='principle';
+  d.innerHTML='<div class="p-num">'+p.num+'</div><div class="p-content"><div class="p-title">'+p.title+'</div><div class="p-desc">'+p.desc+'</div></div>';
+  pl.appendChild(d);
+});
+
+// ============================================================
+// FAQ
+// ============================================================
+var faqs=[
+  {
+    q:'¿Puedo perder todo mi dinero?',
+    a:'En activos como acciones de índices globales ampliamente diversificados (S&P 500, MSCI World) o bonos de países desarrollados, es prácticamente imposible llegar a cero. Para que el S&P 500 llegue a cero tendrían que quebrar simultáneamente las 500 mayores empresas del mundo — en ese escenario, el dinero en los bancos también sería un problema. Lo que sí puede ocurrir es que tu inversión baje temporalmente entre un 20% y un 50% en una crisis severa. Eso es real, ocurrió en 2008 y en otras crisis, y hay que estar psicológicamente preparado para verlo en pantalla sin vender. La diferencia entre una pérdida temporal y una pérdida definitiva la define una sola variable: si vendiste o no mientras estaba abajo. En criptoactivos o acciones individuales de empresas pequeñas, sí existe riesgo de pérdida total — por eso representan solo una fracción acotada de una cartera bien diseñada.'
+  },
+  {
+    q:'¿Qué pasa si necesito el dinero antes de lo planeado?',
+    a:'Esta es una de las preguntas más importantes antes de estructurar cualquier cartera, y por eso la definición del horizonte temporal es la primera parte del trabajo. Acciones, bonos y ETFs se pueden vender en 1–3 días hábiles — la liquidez técnica existe. El problema real no es la liquidez: es que si el mercado está en baja en ese momento, vendés con pérdida. Un inversor que necesitó efectivo en marzo de 2009 — el piso de la crisis financiera — y vendió su cartera, capturó la pérdida entera y no participó de la recuperación de los cuatro años siguientes. Por eso existen dos reglas que se aplican siempre: primero, nunca invertimos dinero que podamos necesitar en menos de 2–3 años. Segundo, siempre mantenemos un fondo de emergencia completamente separado de la cartera de inversión — liquidez inmediata para imprevistos de la vida, sin tocar las posiciones de largo plazo bajo ninguna circunstancia.'
+  },
+  {
+    q:'¿Está asegurado mi dinero si el broker quiebra?',
+    a:'En brokers regulados, los activos están registrados a nombre del inversor y segregados del capital propio de la empresa. Esto es distinto a depositar dinero en un banco: en el banco sos acreedor, en una cuenta de inversión sos propietario de los activos. Si el broker quiebra, tus acciones y bonos siguen siendo tuyos. En EEUU, el SIPC (Securities Investor Protection Corporation) cubre hasta $500,000 por cuenta en caso de fraude o error del broker — no contra pérdidas de mercado. En Argentina, la CNV regula a los ALyCs y los activos también deben estar segregados. Sin embargo, esto no significa que no existan riesgos operativos: errores, fraudes y malas prácticas ocurren. Por eso la reputación, trayectoria y solidez del broker importan tanto. Para montos importantes, puede tener sentido diversificar entre dos custodios o jurisdicciones.'
+  },
+  {
+    q:'¿Por qué no poner todo en tecnología si en los últimos 20 años rindió más?',
+    a:'Porque el espejo retrovisor no maneja el auto. El Nasdaq 100 cayó un 83% entre 2000 y 2002 durante el crash de las puntocom. Quien invirtió todo en tecnología en el año 2000 —en plena euforia— tardó 15 años en recuperar el valor nominal de su inversión. Las empresas más sólidas existían: Cisco era la más valiosa del mundo en 2000, y nunca volvió a sus máximos. El futuro de la tecnología puede ser brillante —y por eso tiene un lugar importante en carteras de crecimiento y agresivo, entre el 20% y el 30%— pero la concentración extrema en un sector expone al inversor a un riesgo que el retorno esperado no justifica. Además, gran parte del rendimiento extraordinario del Nasdaq de los últimos 20 años ya fue capturado en las valuaciones actuales. Las expectativas moderadas para los próximos 10 años son más razonables que extrapolar el pasado.'
+  },
+  {
+    q:'¿Es mejor invertir todo de una vez o ir poniendo de a poco?',
+    a:'Esta es la pregunta del lump sum vs. dollar-cost averaging (DCA). Estadísticamente, invertir todo de una vez supera al DCA en aproximadamente el 66–70% de los períodos históricos —porque el mercado tiende a subir más tiempo del que baja. Sin embargo, el DCA tiene una ventaja conductual enorme que los números no capturan: si el mercado cae después de invertir todo, la presión psicológica puede llevar al inversor a vender exactamente en el peor momento. Si en cambio aún tiene capital sin invertir, la caída se convierte en una oportunidad de comprar más barato. La recomendación práctica: si el cliente tiene un capital disponible y un horizonte largo, invertirlo gradualmente en 6–12 meses es una estrategia que combina lo mejor de ambos mundos — aprovecha el rendimiento sin exponer al cliente al riesgo emocional de una caída inmediata después de poner todo. Para aportes mensuales recurrentes, el DCA es la estrategia natural y no requiere ninguna decisión adicional.'
+  },
+  {
+    q:'¿Qué tan seguido debo mirar mi cartera?',
+    a:'Menos de lo que el instinto dice. Los estudios de Benartzi y Thaler demostraron que cuanto más frecuentemente un inversor mira su cartera, más averso al riesgo se vuelve —porque en el corto plazo, la probabilidad de ver pérdidas temporales es alta. Quien mira su cartera todos los días, en un año típico de mercado, verá pérdidas en aproximadamente el 47% de los días. Quien la mira una vez por año, verá pérdidas en solo el 25% de los años. Quien la mira cada 10 años, casi nunca ve pérdidas. La recomendación concreta: revisar la cartera de forma programada, una vez por mes o por trimestre, en el contexto de un reporte que el asesor envíe. Actuar sobre la cartera solo cuando cambia algo en los objetivos, en la situación personal, o en el plan de inversión —no cuando cambian los precios del mercado. La hipervigilancia genera decisiones emocionales; la disciplina estructurada genera resultados.'
+  },
+  {
+    q:'¿Cuándo debo vender mis inversiones?',
+    a:'Vender tiene sentido en tres escenarios bien definidos: cuando cambiaron tus objetivos o tu horizonte temporal, cuando necesitás el dinero para un fin planificado de antemano, o cuando el activo dejó de encajar en tu estrategia por razones fundamentales —no por su precio. No tiene sentido vender por miedo a que "siga bajando" si tu horizonte es largo, porque esa decisión implica que después tendrías que acertar también cuándo volver a entrar. Nadie logra eso de forma consistente. El mercado cae, el cliente vende para "protegerse", el mercado sube, el cliente espera "que confirme la tendencia", el mercado ya subió un 30%. En ese ciclo, el inversor asustado pierde en la caída y también pierde la recuperación. Vender en pánico es el único mecanismo que convierte una pérdida temporaria —que con tiempo se revertiría— en una pérdida permanente.'
+  },
+  {
+    q:'¿Vale la pena invertir en tecnología con las valuaciones actuales?',
+    a:'Es una pregunta completamente legítima y la respuesta honesta es: sí, con el peso correcto. Las grandes tecnológicas (los Magnificent 7) cotizan a múltiplos de valuación elevados comparados con el promedio histórico. Eso no significa que vayan a caer —un activo puede ser "caro" y seguir subiendo si las ganancias crecen más rápido de lo esperado— pero sí significa que el margen de error es menor y que el retorno esperado a futuro es probablemente más moderado que el retorno histórico de los últimos 20 años. En carteras de crecimiento y agresivo, asignamos tecnología de forma significativa pero no exclusiva: típicamente 20–30% vía QQQ o Nasdaq 100, complementado con el S&P500 amplio que ya incluye un 30–35% de tecnología. Esta estructura da exposición real a la innovación digital sin apostar todo a que las valuaciones actuales se sostengan indefinidamente ni a que las mismas 7 empresas sigan dominando los próximos 20 años.'
+  },
+];
+var fl=document.getElementById('faqList');
+faqs.forEach(function(f){
+  var d=document.createElement('div');d.className='faq';
+  d.innerHTML='<div class="fq" onclick="tFaq(this.parentNode)"><span class="fq-text">'+f.q+'</span><span class="fi">+</span></div>'
+    +'<div class="fa">'+f.a+'</div>';
+  fl.appendChild(d);
+});
+function tFaq(el){el.classList.toggle('open')}
+
+// ============================================================
+// GLOSSARY
+// ============================================================
+var glossary=[
+  {t:'Volatilidad',d:'Cuánto sube y baja el precio de un activo en un período. Alta volatilidad = movimientos grandes y frecuentes. No es sinónimo de pérdida: es la "temperatura" del activo. Se mide como desvío estándar del retorno anual.'},
+  {t:'Rendimiento nominal vs. real',d:'El nominal es lo que ves en números. El real descuenta la inflación. Si ganás 7% pero la inflación fue 3%, tu retorno real es ~4%. En Argentina, donde la inflación en pesos es extrema, esta distinción es crítica.'},
+  {t:'Diversificación',d:'Distribuir el capital en activos que no caen al mismo tiempo, para que si uno baja no caiga todo junto. Es la única "ventaja gratis" que ofrece el mercado. Su beneficio principal es conductual: permite mantener la posición en caídas.'},
+  {t:'Liquidez',d:'La velocidad con la que podés convertir un activo en efectivo sin perder valor. Las acciones son muy líquidas (1–2 días). Un inmueble directo puede tardar meses. La liquidez tiene un costo: activos más líquidos suelen rendir menos.'},
+  {t:'Drawdown (caída máxima)',d:'La pérdida desde el punto más alto hasta el siguiente mínimo. Mide el peor escenario posible para quien invirtió en el peor momento. El S&P 500 tuvo un drawdown de –38% en 2008–2009. Es el dato que más impacta emocionalmente.'},
+  {t:'Horizonte temporal',d:'El tiempo que planeás mantener tu inversión sin necesitar ese dinero. Define cuánto riesgo tenés capacidad real de asumir. Un horizonte de 10+ años puede tolerar caídas del 40%; un horizonte de 2 años, no.'},
+  {t:'ETF (Exchange Traded Fund)',d:'Fondo que cotiza en bolsa y replica un índice o canasta de activos. Se compra y vende como si fuera una acción, con comisiones muy bajas (TER 0.03–0.5%). SPY y QQQ son los más líquidos del mundo.'},
+  {t:'CEDEAR',d:'Certificado de Depósito Argentino. Permite comprar acciones extranjeras (Apple, Nvidia, Google, etc.) desde Argentina, operando en pesos o dólares a través de un broker local. Es la puerta de entrada más simple al mercado global.'},
+  {t:'P/E Ratio (Price-to-Earnings)',d:'Relación entre el precio de una acción y sus ganancias anuales. Mide cuánto se paga por cada dólar de ganancia. Un P/E de 25 significa que el mercado paga $25 por cada $1 de ganancia. P/E altos implican mayores expectativas de crecimiento futuro.'},
+  {t:'Renta fija vs. renta variable',d:'Renta fija: activos que pagan un flujo conocido (bonos). Renta variable: activos cuyo retorno depende del mercado (acciones). La fija da previsibilidad; la variable da mayor retorno de largo plazo pero con más volatilidad.'},
+  {t:'Interés compuesto',d:'El rendimiento que genera rendimiento. Los intereses se reinvierten y producen más intereses sobre sí mismos. El efecto es exponencial: pequeñas diferencias de tasa o de horizonte producen diferencias enormes en el resultado final.'},
+  {t:'TER / Comisión de gestión',d:'Total Expense Ratio. El costo anual de tener un ETF o fondo. Un TER de 0.03% es casi gratuito (SPY, VOO). Uno de 1.5% parece poco pero en 30 años puede representar cientos de miles de dólares de diferencia en el resultado final.'},
+];
+var gg=document.getElementById('glossGrid');
+glossary.forEach(function(g){
+  var d=document.createElement('div');d.className='gitem';
+  d.innerHTML='<div class="gterm">'+g.t+'</div><div class="gdef">'+g.d+'</div>';
+  gg.appendChild(d);
+});
+</script>
+</body>
+</html>
